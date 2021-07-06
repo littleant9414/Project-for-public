@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>shiftKey_checked</title>
+  </head>
+  <body>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+        background: #ffc600;
+      }
+
+      .container {
+        margin:40px auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      header {
+        display: block;
+        position: absolute;
+        margin: 10px 10px;
+        top: 10px;
+        text-transform: uppercase;;
+        z-index: 1;
+      }
+
+      .inbox {
+        min-width: 60vw;
+        padding: 30px;
+        position: relative;
+        background: white;
+        border-radius: 5px;
+        box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.1);
+      }
+
+      .inbox label {
+        position: relative;
+        display: flex;
+        margin: 40px 0;
+        border-bottom: 1px solid #f1f1f1;
+        cursor: pointer;
+        font-size: 20px;
+      }
+
+      /* .inbox input[type="checkbox"] {
+        -webkit-appearance: none;
+      } */
+
+      inbox input {
+        position: absolute;
+        right: 0;
+      }
+
+      .inbox span {
+        position: relative;
+        left: 10px;
+        transition: 0.5s;
+      }
+
+      .inbox span:before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: #00f;
+        transform: translateY(-50%) scaleX(0);
+        transform-origin: right;
+        transition: transform 0.5s;
+      }
+
+      .inbox input[type="checkbox"]:checked ~ span:before {
+        transform: translateY(-50%) scaleX(1);
+        transform-origin: left;
+        transition: transform 0.5s;
+      }
+
+      .inbox input[type="checkbox"]:checked ~ span {
+        color: rgba(0, 0, 0, 0.3);
+      }
+    </style>
+    <div class="container">
+      <header>
+        <h2>todo list</h2>
+      </header>
+      <div class="inbox">
+        <label>
+          <input type="checkbox" />
+          <i></i>
+          <span>This is an inbox layout.</span>
+        </label>
+        <label>
+          <input type="checkbox" />
+          <i></i>
+          <span>Check one item</span>
+        </label>
+        <label>
+          <input type="checkbox" />
+          <i></i>
+          <span>Hold down your Shift key</span>
+        </label>
+        <label>
+          <input type="checkbox" />
+          <i></i>
+          <span>Check a lower item</span>
+        </label>
+        <label>
+          <input type="checkbox" />
+          <i></i>
+          <span>Everything in between should also be set to checked</span>
+        </label>
+        <label>
+          <input type="checkbox" />
+          <i></i>
+          <span>Try to do it without any libraries</span>
+        </label>
+        <label>
+          <input type="checkbox" />
+          <i></i>
+          <span>Just regular JavaScript</span>
+        </label>
+        <label>
+          <input type="checkbox" />
+          <i></i>
+          <span>Good Luck!</span>
+        </label>
+        <label>
+          <input type="checkbox" />
+          <i></i>
+          <span>Don't forget to tweet your result!</span>
+        </label>
+      </div>
+    </div>
+    <script>
+      (function () {
+        const checkBoxes = Array.from(
+          document.querySelectorAll('.inbox input[type="checkbox"]')
+        );
+        let firstCheck = null;
+
+        function handler(e) {
+          // 第一個如果有打勾則標記，否則清掉
+          if (this.checked) {
+            // 如果有按 shift 則選取
+            if (e.shiftKey && firstCheck !== null) {
+              let currentCheck = checkBoxes.indexOf(this);
+              checkBoxes
+                .slice(
+                  Math.min(currentCheck, firstCheck),
+                  Math.max(currentCheck, firstCheck)
+                )
+                .forEach((input) => (input.checked = true));
+            }
+            firstCheck = checkBoxes.indexOf(this);
+            // console.log(this.checked)
+          } else {
+            if (e.shiftKey && firstCheck !== null && this.checked === false) {
+              let currentCheck = checkBoxes.indexOf(this);
+              checkBoxes
+                .slice(
+                  Math.min(currentCheck, firstCheck),
+                  Math.max(currentCheck, firstCheck)
+                )
+                .forEach((input) => (input.checked = false));
+            }
+            firstCheck = checkBoxes.indexOf(this);
+            // console.log(this.checked)
+          }
+        }
+
+        checkBoxes.forEach((input) => {
+          input.addEventListener("click", handler);
+        });
+      })();
+    </script>
+  </body>
+</html>
