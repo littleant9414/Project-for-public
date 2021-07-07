@@ -1,377 +1,406 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>js_todo_list</title>
-  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900&display=swap" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>todo_list_js</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900&display=swap"
+    />
 
-  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+      crossorigin="anonymous"
+    />
 
-  <style type='text/css'>
-    *
-    {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <style type="text/css">
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-    body
-    {
-      background-image: linear-gradient(120deg,#f6d365, #fda085);
-      color:white;
-      font-family:'Poppins',sans-serif;
-      min-height:100vh;
-    }
+      body {
+        background-image: linear-gradient(120deg, #f6d365, #fda085);
+        color: white;
+        font-family: "Poppins", sans-serif;
+        min-height: 100vh;
+      }
 
-    header
-    {
-      text-transform:uppercase;
-    }
+      header {
+        text-transform: uppercase;
+      }
 
-    header, form
-    {
-      min-height: 20vh;
-      min-width: 20vw;
-      font-size: 1.5rem;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-    }
+      header,
+      form {
+        min-height: 20vh;
+        min-width: 20vw;
+        font-size: 1.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 
-    form input,form button
-    {
-      padding:0.5rem;
-      font-size:2rem;
-      border:none;
-      outline: none;
-      background: #fff;
-    }
+      form input,
+      form button {
+        padding: 0.5rem;
+        font-size: 2rem;
+        border: none;
+        outline: none;
+        background: #fff;
+      }
 
-    form button
-    {
-      color:#d88771;
-      background: white;
-      cursor:pointer;
-      transition:all 0.3s ease;
-    }
+      form button {
+        color: #d88771;
+        background: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
 
-    form button:hover{
-      background: #d88771;
-      color:white;
-    }
+      form button:hover {
+        background: #d88771;
+        color: white;
+      }
 
-    .todo-container
-    {
-      display:flex;
-      justify-content:center;
-      align-items:center;
-    }
+      .todo-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 
-    .todo-list
-    {
-      min-width:20vw;
-      list-style:none;
-    }
+      .todo-list {
+        min-width: 20vw;
+        list-style: none;
+      }
 
-    .todo
-    {
-      margin:0.5rem;
-      background: white;
-      color:black;
-      display:flex;
-      justify-content:space-between;
-      align-items: center;
-      transition:all 0.5s ease;
-    }
+      .todo {
+        margin: 0.5rem;
+        background: white;
+        color: black;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.5s ease;
+      }
 
-    .todo li
-    {
-      min-width: 70vw;
-      flex:1;
-    }
+      .todo li {
+        min-width: 70vw;
+        flex: 1;
+      }
 
-    .trash-btn, .complete-btn
-    {
-      background:white;
-      color:#ff6f47;
-      border:none;
-      padding:1rem;
-      cursor:pointer;
-      font-size: 1rem;
-    }
+      .trash-btn,
+      .complete-btn {
+        position: relative;
+        display: inline;
+        right: 1em;
+        background: white;
+        color: #ff6f47;
+        border: none;
+        padding: 1rem;
+        cursor: pointer;
+        font-size: 1rem;
+      }
 
-    .todo-item /* item width*/
-    {
-      padding:0rem 0.5rem;
-    }
-    .fa-trash,.fa-check  /* trash and check icon*/
-    {
-      pointer-events:none;
-    }
+      /* hover to shake icon */
+      .trash-btn:hover,
+      .complete-btn:hover {
+        position: relative;
+        animation: shake 1s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+        transform: translate3d(0, 0, 0);
+        backface-visibility: hidden;
+        perspective: 1000px;
+      }
 
-    .completed  /* complete todo item animation*/
-    {
-      text-decoration: line-through;
-      opacity:0.5;
-    }
+      /* hover to shake icon */
+      @keyframes shake {
+        10%,
+        90% {
+          transform: translate3d(-1px, 0, 0);
+        }
 
-    .fall /* delete item animation*/
-    {
-      transform: translateY(8rem) rotateZ(20deg);
-      opacity:0;
-    }
+        20%,
+        80% {
+          transform: translate3d(2px, 0, 0);
+        }
 
-    select
-    {
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      appearance: none;
-      outline:none;
-      border:none;
-    }
+        30%,
+        50%,
+        70% {
+          transform: translate3d(-4px, 0, 0);
+        }
 
-    .select
-    {
-      margin:1rem;
-      position:relative;
-      overflow:hidden;
-    }
+        40%,
+        60% {
+          transform: translate3d(4px, 0, 0);
+        }
+      }
 
-    select
-    {
-      color:#ff6f47;
-      width:10rem;
-      cursor:pointer;
-      padding:1rem;
-    }
+       /* item width*/
+      .todo-item {
+        padding: 0rem 0.5rem;
+      }
 
-    .select:after
-    {
-      /*  arrow down icon*/
-      content:'\25BC';
-      position:absolute;
-      background:white;
-      color:#ff6f47;
-      top:-10px;
-      right:0;
-      padding:1rem;
-      pointer-events:none; 
-      transition:all 0.3s ease;
-    }
+       /* trash and check icon*/
+      .fa-trash,.fa-check {
+        pointer-events: none;
+      }
 
-    .select:hover:after
-    {
-      background: white;
-      color:#ff6f47;
-    }
+      /* complete todo item animation*/
+      .completed {
+        text-decoration: line-through;
+        opacity: 0.5;
+      }
 
-  </style>
-  
-</head>
-<body>
-  <header>
-    <h1>JS todo list</h1>
-  </header>
-  <form>
-    <!-- typing frame and plus button -->
-    <input type="text" class="todo-input">
-    <button class="todo-button">
-      <i class="fas fa-plus-square"></i>
-    </button>
-    <!-- filter -->
-    <div class="select">
-      <select name="todos" class="filter-todo">
-        <option value="all">all</option>
-        <option value="completed">completed</option>
-        <option value="uncompleted">uncompleted</option>
-      </select>
+      /* delete item animation*/
+      .fall {
+        transform: translateY(8rem) rotateZ(20deg);
+        opacity: 0;
+      }
+
+      select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        outline: none;
+        border: none;
+      }
+
+      .select {
+        margin: 1rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      select {
+        color: #ff6f47;
+        width: 10rem;
+        cursor: pointer;
+        padding: 1rem;
+        border: none;
+        outline: none;
+        appearance: none;
+      }
+
+      .select:after {
+        /*  arrow down icon*/
+        content: "\2BC6";
+        position: absolute;
+        background: white;
+        color: #ff6f47;
+        top: -15px;
+        right: 0;
+        padding: 1rem;
+        pointer-events: none;
+        transition: all 0.3s ease;
+      }
+
+      .select:hover:after {
+        background: white;
+        color: #ff6f47;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>JS todo list</h1>
+    </header>
+    <form>
+      <!-- typing frame and plus button -->
+      <input type="text" class="todo-input" />
+      <button class="todo-button">
+        <i class="fas fa-plus-square"></i>
+      </button>
+      <!-- filter -->
+      <div class="select">
+        <select name="todos" class="filter-todo">
+          <i class="fas fa-arrow-down"></i>
+          <option value="all">all</option>
+          <option value="completed">completed</option>
+          <option value="uncompleted">uncompleted</option>
+        </select>
+      </div>
+    </form>
+    <!-- area for new todo -->
+    <div class="todo-container">
+      <ul class="todo-list"></ul>
     </div>
-  </form>
-  <!-- area for new todo -->
-  <div class="todo-container">
-    <ul class="todo-list">
-    </ul>
-  </div>
-  <script type='text/javascript'>
-    // selector
-    const todoInput = document.querySelector('.todo-input')
-    const todoButton = document.querySelector('.todo-button')
-    const todoList = document.querySelector('.todo-list')
-    const filterOption = document.querySelector('.filter-todo')
 
-    
-    //eventListeners
-    document.addEventListener('DOMContentLoaded',getTodos)
-    todoButton.addEventListener('click',addTodo)
-    todoList.addEventListener('click',deleteChecked)
-    filterOption.addEventListener('change',filterTodo)
+    <script type="text/javascript">
+      // selector
+      const todoInput = document.querySelector(".todo-input");
+      const todoButton = document.querySelector(".todo-button");
+      const todoList = document.querySelector(".todo-list");
+      const filterOption = document.querySelector(".filter-todo");
 
+      //eventListeners
+      document.addEventListener("DOMContentLoaded", getTodos);
+      todoButton.addEventListener("click", addTodo);
+      todoList.addEventListener("click", deleteChecked);
+      filterOption.addEventListener("change", filterTodo);
 
-    //functions addTodo
-    function addTodo(event) {
-      event.preventDefault()
+      //functions addTodo
+      function addTodo(event) {
+        event.preventDefault();
 
-      // create list div container
-      const todoDiv = document.createElement('div')
-      todoDiv.classList.add('todo')
-
-      // create li
-      const newTodo = document.createElement('li')
-      newTodo.innerText = todoInput.value
-      newTodo.classList.add('todo-item')
-      todoDiv.appendChild(newTodo)
-
-      // add todo to localStorage
-      saveLocalTodos(todoInput.value)
-
-      // checked button
-      const completedButton = document.createElement('button')
-      completedButton.innerHTML = '<i class="fas fa-check"></i>'
-      completedButton.classList.add('complete-btn')
-      todoDiv.appendChild(completedButton)
-
-      // trash button
-      const trashButton = document.createElement('button')
-      trashButton.innerHTML = `<i class="fas fa-trash"></i>`
-      trashButton.classList.add('trash-btn')
-      todoDiv.appendChild(trashButton)
-
-      // append todoDiv to ul
-      todoList.appendChild(todoDiv)
-      todoInput.value = ''
-    }
-
-    function deleteChecked(event) {
-      // console.log(event.target)
-      const item = event.target
-      // console.log(item[0])
-
-      if (item.classList[0] === 'trash-btn') {
-        // the target to remove is the parentNode of trash-btn
-        const todo = item.parentElement
-        todo.classList.add('fall')
-        removeLocalTodos(todo)
-
-        // wait for animation finish and remove the item finally
-        todo.addEventListener('transitionend',function(){
-          todo.remove()
-        })
-      }
-
-      if (item.classList[0] === 'complete-btn') {
-        // the target to remove is the parentNode of trash-btn
-        const todo = item.parentElement
-        todo.classList.toggle('completed')
-      }
-    }
-
-    function filterTodo(e){
-      // when i use todoList.childNodes it's shows "Uncaught TypeError: Cannot read property 'contains' of undefined"
-      const todos = todoList.querySelectorAll('div')
-      // console.log(todos)
-      // console.log(e.target.value)
-
-
-      // similar question stackoverflow
-      // https://stackoverflow.com/questions/61185440/how-to-resolve-the-cannot-read-property-contains-of-undefined-in-javascript
-      todos.forEach(function(todo){    
-            
-          switch (e.target.value) {
-          case "all":
-            // if display is block the whole display outline will mess up 
-            todo.style.display = 'flex'
-            break
-          
-            case "completed":
-            if (todo.classList.contains('completed')) {
-              todo.style.display = 'flex'
-            } else {
-              todo.style.display = 'none'
-            }
-            break
-          
-          case "uncompleted":
-            if (todo.classList.contains('completed')) {
-              todo.style.display = 'none'
-            }else {
-              todo.style.display = 'flex'
-            }
-            break
-          }
-      })
-    }
-
-    function saveLocalTodos(todo) {
-      // check existed local list
-      // 如果單純的儲存物件，讀取物件時會得到 [object Object](因為儲存時調用了 object.toString())
-      let todos
-      if (localStorage.getItem('todos') === null) {
-        todos = []
-      }else {
-        todos = JSON.parse(localStorage.getItem('todos'))
-      }
-      todos.push(todo)
-      localStorage.setItem('todos',JSON.stringify(todos))
-    }
-
-    function getTodos() {
-      // check existed local list
-      let todos
-      if (localStorage.getItem('todos') === null) {
-        todos = []
-      }else {
-        todos = JSON.parse(localStorage.getItem('todos'))
-      }
-
-      todos.forEach(function (todo) {
         // create list div container
-        const todoDiv = document.createElement('div')
-        todoDiv.classList.add('todo')
+        const todoDiv = document.createElement("div");
+        todoDiv.classList.add("todo");
 
         // create li
-        // innerText 改成 localStorage 裡的項目
-        const newTodo = document.createElement('li')
-        newTodo.innerText = todo
-        newTodo.classList.add('todo-item')
-        todoDiv.appendChild(newTodo)
+        const newTodo = document.createElement("li");
+        newTodo.innerText = todoInput.value;
+        newTodo.classList.add("todo-item");
+        todoDiv.appendChild(newTodo);
+
+        // add todo to localStorage
+        saveLocalTodos(todoInput.value);
 
         // checked button
-        const completedButton = document.createElement('button')
-        completedButton.innerHTML = '<i class="fas fa-check"></i>'
-        completedButton.classList.add('complete-btn')
-        todoDiv.appendChild(completedButton)
+        const completedButton = document.createElement("button");
+        completedButton.innerHTML = '<i class="fas fa-check"></i>';
+        completedButton.classList.add("complete-btn");
+        todoDiv.appendChild(completedButton);
 
         // trash button
-        const trashButton = document.createElement('button')
-        trashButton.innerHTML = `<i class="fas fa-trash"></i>`
-        trashButton.classList.add('trash-btn')
-        todoDiv.appendChild(trashButton)
+        const trashButton = document.createElement("button");
+        trashButton.innerHTML = `<i class="fas fa-trash"></i>`;
+        trashButton.classList.add("trash-btn");
+        todoDiv.appendChild(trashButton);
 
         // append todoDiv to ul
-        todoList.appendChild(todoDiv)
-      })
-    }
-  
-    function removeLocalTodos(todo){
-      // check existed local list
-      let todos
-      if (localStorage.getItem('todos') === null) {
-        todos = []
-      }else {
-        todos = JSON.parse(localStorage.getItem('todos'))
+        todoList.appendChild(todoDiv);
+        todoInput.value = "";
       }
 
-      const todoIndex = todo.children[0].innerText
-      
-      todos.splice(todos.indexOf(todoIndex),1)
-      // console.log(todo.indexOf())
+      function deleteChecked(event) {
+        // console.log(event.target)
+        const item = event.target;
+        // console.log(item[0])
 
-      localStorage.setItem('todos',JSON.stringify(todos))
-      
-    }
-  </script>
-  
-</body>
+        if (item.classList[0] === "trash-btn") {
+          // the target to remove is the parentNode of trash-btn
+          const todo = item.parentElement;
+          todo.classList.add("fall");
+          removeLocalTodos(todo);
+
+          // wait for animation finish and remove the item finally
+          todo.addEventListener("transitionend", function () {
+            todo.remove();
+          });
+        }
+
+        if (item.classList[0] === "complete-btn") {
+          // the target to remove is the parentNode of trash-btn
+          const todo = item.parentElement;
+          todo.classList.toggle("completed");
+        }
+      }
+
+      function filterTodo(e) {
+        // when i use todoList.childNodes it's shows "Uncaught TypeError: Cannot read property 'contains' of undefined"
+        const todos = todoList.querySelectorAll("div");
+        // console.log(todos)
+        // console.log(e.target.value)
+
+        // similar question stackoverflow
+        // https://stackoverflow.com/questions/61185440/how-to-resolve-the-cannot-read-property-contains-of-undefined-in-javascript
+        todos.forEach(function (todo) {
+          switch (e.target.value) {
+            case "all":
+              // if display is block the whole display outline will mess up
+              todo.style.display = "flex";
+              break;
+
+            case "completed":
+              if (todo.classList.contains("completed")) {
+                todo.style.display = "flex";
+              } else {
+                todo.style.display = "none";
+              }
+              break;
+
+            case "uncompleted":
+              if (todo.classList.contains("completed")) {
+                todo.style.display = "none";
+              } else {
+                todo.style.display = "flex";
+              }
+              break;
+          }
+        });
+      }
+
+      function saveLocalTodos(todo) {
+        // check existed local list
+        // 如果單純的儲存物件，讀取物件時會得到 [object Object](因為儲存時調用了 object.toString())
+        let todos;
+        if (localStorage.getItem("todos") === null) {
+          todos = [];
+        } else {
+          todos = JSON.parse(localStorage.getItem("todos"));
+        }
+        todos.push(todo);
+        localStorage.setItem("todos", JSON.stringify(todos));
+      }
+
+      function getTodos() {
+        // check existed local list
+        let todos;
+        if (localStorage.getItem("todos") === null) {
+          todos = [];
+        } else {
+          todos = JSON.parse(localStorage.getItem("todos"));
+        }
+
+        todos.forEach(function (todo) {
+          // create list div container
+          const todoDiv = document.createElement("div");
+          todoDiv.classList.add("todo");
+
+          // create li
+          // innerText 改成 localStorage 裡的項目
+          const newTodo = document.createElement("li");
+          newTodo.innerText = todo;
+          newTodo.classList.add("todo-item");
+          todoDiv.appendChild(newTodo);
+
+          // checked button
+          const completedButton = document.createElement("button");
+          completedButton.innerHTML = '<i class="fas fa-check"></i>';
+          completedButton.classList.add("complete-btn");
+          todoDiv.appendChild(completedButton);
+
+          // trash button
+          const trashButton = document.createElement("button");
+          trashButton.innerHTML = `<i class="fas fa-trash"></i>`;
+          trashButton.classList.add("trash-btn");
+          todoDiv.appendChild(trashButton);
+
+          // append todoDiv to ul
+          todoList.appendChild(todoDiv);
+        });
+      }
+
+      function removeLocalTodos(todo) {
+        // check existed local list
+        let todos;
+        if (localStorage.getItem("todos") === null) {
+          todos = [];
+        } else {
+          todos = JSON.parse(localStorage.getItem("todos"));
+        }
+
+        const todoIndex = todo.children[0].innerText;
+
+        todos.splice(todos.indexOf(todoIndex), 1);
+        // console.log(todo.indexOf())
+
+        localStorage.setItem("todos", JSON.stringify(todos));
+      }
+    </script>
+  </body>
 </html>
