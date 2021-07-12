@@ -22,9 +22,6 @@
       crossorigin="anonymous"
     />
     <style type="text/css">
-      .btn {
-        font-weight: bold;
-      }
 
       .my-p-2 {
         padding: 0.4rem !important;
@@ -41,8 +38,17 @@
       .w-70 {
         width: 70% !important;
       }
+      .alertBox{
+        visibility:hidden;
+      }
 
-      .fa-trash-alt:hover, .fa-check:hover{
+      .completed {
+        text-decoration: line-through red solid;
+        opacity: 0.5;
+      }
+
+      /* fa-check, fa-trash-alt hover effect */
+      #todo-list .btn-shake:hover {
         position: relative;
         animation: shake 1s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
         transform: translate3d(0, 0, 0);
@@ -50,7 +56,7 @@
         perspective: 1000px;
       }
 
-      /* hover to shake icon */
+      /* hover to shake fa-check, fa-trash-alt */
       @keyframes shake {
         10%,
         90% {
@@ -72,15 +78,6 @@
         60% {
           transform: translate3d(4px, 0, 0);
         }
-      }
-
-
-      .btn:hover {
-        position: relative;
-        animation: shake 1s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-        transform: translate3d(0, 0, 0);
-        backface-visibility: hidden;
-        perspective: 1000px;
       }
 
       /* >=768px > 991px */
@@ -124,6 +121,7 @@
           mt-3
         "
       >
+
         <!-- input -->
         <div class="col-md-8 col-sm-12 px-0">
           <input type="text" id="inputText" class="w-100 py-md-1" />
@@ -132,7 +130,7 @@
         <!-- button -->
         <div class="col-md-1 col-sm-12 px-0">
           <button
-          id="btn"
+            id="btn"
             class="
               btn btn-primary btn-sm
               w-md-90 w-100
@@ -141,8 +139,8 @@
               my-2
             "
           >
-          <i class="fas fa-plus"></i>
-        </button>
+            <i class="fas fa-plus"></i>
+          </button>
         </div>
 
         <!-- select -->
@@ -159,9 +157,7 @@
       </div>
       <table class="table mt-5">
         <thead>
-          <tr class="d-flex justify-content-between align-items-center">
-            <th class="w-100 border-0">Todos</th>
-          </tr>
+          <tr class="d-flex justify-content-between align-items-center"></tr>
         </thead>
         <tbody id="todo-list" class=""></tbody>
       </table>
@@ -185,111 +181,148 @@
             // const todos = Store.getTodos()
             let todos = Store.getTodos()
             // console.log(todos)
-            
             todos.forEach((todo) => {
               UI.addTodoToList(todo)
             })
           }
-
           static addTodoToList(todo) {
             const list = document.querySelector("#todo-list")
             const row = document.createElement("tr")
+            row.className = ''
             row.innerHTML = `
             <td class="w-70 pt-2">${todo}</td>
-            <td class="w-30 text-center p-0"><i class="fas fa-check check text-primary p-2 m-1"></i><i class="fas fa-trash-alt delete text-primary p-2 m-1"></i></td>
+            <td class="word w-30 text-center p-0"><button class="btn btn-primary text-center p-2 m-1 btn-shake"><i class="fas fa-check text-light"></i></button><button class="btn btn-primary text-center p-2 m-1 btn-shake"><i class="fas fa-trash-alt text-light"></i></button></td>
             `
             list.appendChild(row)
           }
-
           static clearFields() {
             document.querySelector("#inputText").value = ""
           }
-
-          static deleteTodo(el) {
-            // console.log(el)
-            
-            if (el.classList.contains("delete")) {
-              el.parentElement.parentElement.remove()
+          static todoCompleted(el) {
+            let item = el.parentElement.parentElement.parentElement
+            el.classList.contains("fa-check") ? item.classList.toggle("completed") ? UI.showAlert('todoCompleted','info'): false : false
+              
             }
+            static deleteTodo(el) {
+              let item = el.parentElement.parentElement.parentElement
+              if(el.classList.contains("fa-trash-alt")){
+                item.remove()
+                UI.showAlert('todo Deleted !','danger')
+              }
+              
           }
-
           static showAlert(message, className) {
+            // const alertBox = document.querySelector(".alertBox")
+            // alertBox.style.visibility = "visible"
+            // alertBox.className = `p-0 mb-1 input-alert alert alert-${className}`
+            // alertBox.textContent = message
+            // setTimeout(() => {
+            //   alertBox.style.visibility = "hidden"
+            // }, 1000)
+
+      //       <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      //   <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+      //   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      // </div>
+            
+            // const div = document.createElement("div")
+            // const btn = document.createElement("button")
+            // div.className = `p-1 text-center alert-dismissible fade show input-alert alert alert-${className}`
+            // btn.className = 'p-1 m-1 btn-close'
+            // div.appendChild(document.createTextNode(message))
+            // div.appendChild(btn)
+            // const head = document.querySelector("#head")
+            // head.insertAdjacentElement("afterbegin", div)
+            // btn.addEventListener("click",()=>{})
+            // setTimeout(() => {
+            //   document.querySelector(".input-alert").remove()
+            // }, 1000)
             const div = document.createElement("div")
-            div.className = `p-1 input-alert alert alert-${className}`
-            div.appendChild(document.createTextNode(message))
+            const btn = document.createElement("button")
+            div.className = `p-1 mb-1 text-center alert-dismissible fade show alert alert-${className}`
+            div.setAttribute('role','alert')
+            div.innerHTML = `
+            <strong>${message}</strong> 
+            <button type="button" class="btn-close p-1 mt-1 mx-3" data-bs-dismiss="alert" aria-label="Close"></button>
+            `
             const head = document.querySelector("#head")
             head.insertAdjacentElement("afterbegin", div)
-
+            // btn.addEventListener("click",()=>{})
             setTimeout(() => {
-              document.querySelector(".input-alert").remove()
-            }, 2000)
+              let divs = document.querySelectorAll('.alert-dismissible')
+              divs.forEach((div) => {
+                div.classList.contains('alert-dismissible')
+                div.classList.add('fade')
+                div.remove()
+              })
+            //   document.querySelector(".input-alert").remove()
+            }, 3000)
           }
-        }
 
+          //   const div = document.createElement("div")
+          //   div.className = `p-1 input-alert alert alert-${className}`
+          //   div.appendChild(document.createTextNode(message))
+          //   const head = document.querySelector("#head")
+          //   head.insertAdjacentElement("afterbegin", div)
+          //   setTimeout(() => {
+          //     document.querySelector(".input-alert").remove()
+          //   }, 1000)
+          // }
+        }
         // LocalStore
         class Store {
           static getTodos() {
             let todos = JSON.parse(localStorage.getItem("todos")) || []
             return todos
           }
-
           static addTodo(todo) {
             const todos = Store.getTodos()
             todos.push(todo)
             localStorage.setItem("todos", JSON.stringify(todos))
           }
-
           static removeTodo(el) {
-            let text = el.parentElement.previousElementSibling.innerText.trim()
-            const todos = Store.getTodos()
-
-            todos.forEach(todo=> {
-              if (todo === text) todos.splice(todos.indexOf(todo),1)
-            })
-            localStorage.setItem("todos", JSON.stringify(todos))
+            if (el.classList.contains("fa-trash-alt")) {
+              let text = el.parentElement.parentElement.previousElementSibling.innerText.trim()
+              const todos = Store.getTodos()
+              todos.forEach((todo) => {
+                if (todo === text) todos.splice(todos.indexOf(todo), 1)
+              })
+              localStorage.setItem("todos", JSON.stringify(todos))
+            }
           }
         }
+        let todolist = document.querySelector("#todo-list")
+        let btn = document.querySelector("#btn")
 
         // Event: Display todos
         document.addEventListener("DOMContentLoaded", UI.displayTodos)
-
         // Event: Add a todo
-        document.querySelector("#btn").addEventListener("click", (e) => {
+        btn.addEventListener("click", (e) => {
           e.preventDefault()
           //get todo value
-          // console.log(e.target)
-          
           const todo = document.querySelector("#inputText").value
-
           // validate
           if (todo === "") {
             UI.showAlert("empty not accept", "danger")
           } else {
             // add todo to UI
             UI.addTodoToList(todo)
-
             // add local storage
             Store.addTodo(todo)
-
             UI.showAlert("todo added", "info")
             // Clear fields
             UI.clearFields()
           }
         })
-
-        // Event: Remove a todo
-        document
-          .querySelector("#todo-list")
-          .addEventListener("click", function (e) {
-            // console.log(e.target)
-            
-            e.preventDefault()
-            // delete todo from UI
-            UI.deleteTodo(e.target)
-            // delete todo from localStorage
-            Store.removeTodo(e.target)
-            UI.showAlert("todo deleted", "info")
-          })
+        // Event : completed
+        todolist.addEventListener("click", (e) => {
+          e.preventDefault()
+          let target = e.target
+          UI.todoCompleted(target)
+          UI.deleteTodo(target)
+          // delete todo from localStorage
+          Store.removeTodo(target)
+        })
       })()
     </script>
   </body>
