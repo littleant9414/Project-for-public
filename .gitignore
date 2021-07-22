@@ -16,6 +16,10 @@ _obj
 _test
 test*
 Test*
+package-lock.json
+db.json
+src/_drafts
+.deploy*/
 
 # Compiled Object files, Static and Dynamic libs (Shared Objects)---------------------
 *.o
@@ -53,13 +57,13 @@ _testmain.go
 #builds/**/images/*
 #*.ogg
 #*.mp3
-#*.mp4
-#*.png
-#*.jpeg
+# *.mp4
+# *.png
+# *.jpeg
 *.psd
 
 # compiled output--------------------------------------------------------------
-/dist
+#/dist
 /tmp
 /out-tsc
 
@@ -125,6 +129,7 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 # Dependency directories---------------------------------------------------
 node_modules/
+*/node_modules/*
 jspm_packages/
 
 # TypeScript cache-----------------------------------------------------------
@@ -171,6 +176,7 @@ lerna-debug.log
 .DS_Store
 Thumbs.db
 *.code-workspace
+ehthumbs.db
 
 # Local History for Visual Studio Code-----------------------------------
 .history/
@@ -190,14 +196,6 @@ Package Control.merged-ca-bundle
 Package Control.user-ca-bundle
 oscrypto-ca-bundle.crt
 bh_unicode_properties.cache
-
-#---------------------------------------#
-# Windows Ignores                       #
-#---------------------------------------#
-
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
 
 # Folder config file
 Desktop.ini
