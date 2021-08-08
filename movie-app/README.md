@@ -25,3 +25,5 @@ movie-app
 💧 project base on Vue3 and omdb api.
 
 💧 omdb api: https://www.omdbapi.com/
+
+💧 api key store on ./src/env.js which need to be set before execute project.
