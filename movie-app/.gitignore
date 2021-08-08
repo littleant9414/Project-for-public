@@ -98,7 +98,7 @@ coverage
 
 # linters-------------------------------------------
 .eslintcache/
-.eslintrc
+# .eslintrc
 .eslintrc.yaml
 .eslintrc.json
 # .eslintrc.js
@@ -126,7 +126,7 @@ lerna-debug.log*
 .pnpm-debug.log*
 
 # Diagnostic reports (https://nodejs.org/api/report.html)-----------------
-report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+# report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 # node-waf configuration--------------------------------------------------------------
 .lock-wscript
