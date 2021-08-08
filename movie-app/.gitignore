@@ -101,7 +101,7 @@ coverage
 .eslintrc
 .eslintrc.yaml
 .eslintrc.json
-.eslintrc.js
+# .eslintrc.js
 .stylelintcache/
 .stylelintrc
 .stylelintrc.yaml
