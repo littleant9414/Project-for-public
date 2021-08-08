@@ -6,10 +6,10 @@
 *.launch
 .settings/
 *.sublime-workspace
-*.json
+# *.json
 *.jshintrc
 sever.js
-*.eslintrc.js
+# *.eslintrc.js
 *.suo
 *.ntvs*
 *.njsproj
@@ -199,16 +199,16 @@ sftp-config.json
 sftp-config-alt*.json
 
 # Package control specific files-------------------------------------------------
-Package Control.last-run
-Package Control.ca-list
-Package Control.ca-bundle
-Package Control.system-ca-bundle
-Package Control.cache/
-Package Control.ca-certs/
-Package Control.merged-ca-bundle
-Package Control.user-ca-bundle
-oscrypto-ca-bundle.crt
-bh_unicode_properties.cache
+# Package Control.last-run
+# Package Control.ca-list
+# Package Control.ca-bundle
+# Package Control.system-ca-bundle
+# Package Control.cache/
+# Package Control.ca-certs/
+# Package Control.merged-ca-bundle
+# Package Control.user-ca-bundle
+# oscrypto-ca-bundle.crt
+# bh_unicode_properties.cache
 
 # Folder config file
 Desktop.ini
