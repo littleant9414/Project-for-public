@@ -4,12 +4,9 @@
 
 ```javascript
 movie-app
-├── babel.config.js
-├── package.json
 ├── public
 |  ├── favicon.ico
 |  └── index.html
-├── README.md
 ├── src
 |  ├── App.vue
 |  ├── env.js
@@ -19,7 +16,13 @@ movie-app
 |  └── views
 |     ├── Home.vue
 |     └── MovieDetail.vue
-└── yarn.lock
+├── babel.config.js
+├── package.json
+├── .browserslistrc
+├── .gitignore
+├── .eslintrc.js
+├── README.md
+
 ```
 
 💧 project base on Vue3 and omdb api.
